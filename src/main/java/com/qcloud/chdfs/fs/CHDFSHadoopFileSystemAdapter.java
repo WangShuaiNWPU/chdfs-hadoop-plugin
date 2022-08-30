@@ -80,7 +80,13 @@ public class CHDFSHadoopFileSystemAdapter extends FileSystemWithLockCleaner {
                 ofsHost = mountPointAddr;
             } else if (isValidMountPointAddrCosType(mountPointAddr)) {
                 String bucketRegion = getChdfsBucketRegion(conf);
-                ofsHost = String.format("%s.chdfs.%s.myqcloud.com", mountPointAddr, bucketRegion);
+
+                if (bucketRegion.equals("ap-qingyuan")) {
+                    ofsHost = String.format("%s.chdfs.%s.tencentcos.cn", mountPointAddr, bucketRegion);
+                } else {
+                    ofsHost = String.format("%s.chdfs.%s.myqcloud.com", mountPointAddr, bucketRegion);
+                }
+
             } else {
                 String errMsg = String.format("mountPointAddr %s is invalid, fullUri: %s, exp. f4mabcdefgh-xyzw.chdfs"
                                 + ".ap-guangzhou.myqcloud.com or examplebucket-1250000000 or f4mabcdefgh-xyzw",
